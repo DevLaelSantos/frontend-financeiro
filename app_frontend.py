@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import plotly.express as px
 
 # ⚠️ COLOQUE A URL DA SUA API NO RENDER AQUI
 API_URL = "https://api-financeira-9ozz.onrender.com/api/v1"
@@ -75,13 +76,56 @@ response = requests.get(f"{API_URL}/transactions/", headers=headers)
 
 if response.status_code == 200:
     transacoes = response.json()
+
+    # todo CODIGO ANTERIOR
+    # if transacoes:
+    #     # Cria um DataFrame para exibir como tabela
+    #     df = pd.DataFrame(transacoes)
+    #     df = df[["description", "amount", "category", "created_at"]]
+    #     df.columns = ["Descrição", "Valor (R$)", "Categoria", "Data"]
+    #     # st.dataframe(df, use_container_width=True)
+    #     st.dataframe(df, width='stretch')
+    # else:
+    #     st.info("Nenhuma transação encontrada.")
+
+    # * CODIGO ATUAL ATUAL ATUALIZADO!
+    # ... (código anterior da tabela) ...
     if transacoes:
         # Cria um DataFrame para exibir como tabela
         df = pd.DataFrame(transacoes)
         df = df[["description", "amount", "category", "created_at"]]
         df.columns = ["Descrição", "Valor (R$)", "Categoria", "Data"]
-        # st.dataframe(df, use_container_width=True)
         st.dataframe(df, width='stretch')
+        
+        # --- INÍCIO DO DASHBOARD ---
+        st.markdown("---")
+        st.subheader("📊 Resumo Financeiro")
+        
+        # Cálculos
+        total_receitas = sum(t['amount'] for t in transacoes if t['amount'] > 0)
+        total_despesas = sum(t['amount'] for t in transacoes if t['amount'] < 0)
+        saldo = total_receitas + total_despesas
+
+        # Exibindo as métricas em colunas
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Total de Receitas", f"R$ {total_receitas:,.2f}")
+        col2.metric("Total de Despesas", f"R$ {abs(total_despesas):,.2f}")
+        col3.metric("Saldo Atual", f"R$ {saldo:,.2f}")
+
+        # Gráfico de Despesas por Categoria
+        st.subheader("Gastos por Categoria")
+        despesas = [t for t in transacoes if t['amount'] < 0]
+        
+        if despesas:
+            df_grafico = pd.DataFrame(despesas)
+            df_grafico['amount'] = df_grafico['amount'].abs() # Converte para positivo
+            
+            fig = px.pie(df_grafico, values='amount', names='category', title='Distribuição de Gastos')
+            st.plotly_chart(fig, width='stretch')
+        else:
+            st.info("Nenhuma despesa registrada para gerar o gráfico.")
+        # --- FIM DO DASHBOARD ---
+
     else:
         st.info("Nenhuma transação encontrada.")
 else:
