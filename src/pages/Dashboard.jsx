@@ -67,6 +67,25 @@ export default function Dashboard() {
     }
   };
 
+  // Função para Deletar uma transação
+  const handleDeletarTransacao = async (id) => {
+    if (!window.confirm("Tem certeza que deseja excluir esta transação?")) {
+      return;
+    }
+
+    try {
+      await api.delete(`/transactions/${id}`);
+
+      setNotificacao({ tipo: 'sucesso', mensagem: 'Transação excluída com sucesso!' });
+      setTimeout(() => setNotificacao({ tipo: '', mensagem: '' }), 3000);
+
+      carregarTransacoes(); // Recarrega a lista
+    } catch (error) {
+      console.error(error);
+      setNotificacao({ tipo: 'erro', mensagem: 'Erro ao excluir transação.' });
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
@@ -149,6 +168,7 @@ export default function Dashboard() {
                   <th className="p-4">Descrição</th>
                   <th className="p-4">Categoria</th>
                   <th className="p-4 text-right">Valor</th>
+                  <th className="p-4 text-center">Ações</th> {/* <-- NOVA COLUNA */}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
@@ -163,6 +183,14 @@ export default function Dashboard() {
                       <td className="p-4 text-slate-400">{t.category}</td>
                       <td className={`p-4 text-right font-medium ${t.amount > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         R$ {t.amount.toFixed(2)}
+                      </td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={() => handleDeletarTransacao(t.id)}
+                          className="text-red-400 hover:text-red-300 transition-colors"
+                          title="Excluir">
+                          🗑️
+                        </button>
                       </td>
                     </tr>
                   ))
