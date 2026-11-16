@@ -107,14 +107,19 @@ export default function Dashboard() {
     <div className="min-h-screen bg-slate-900 text-white p-8">
       <div className="max-w-6xl mx-auto">
 
+
         {/* Cabeçalho */}
-        <div className="flex gap-4"> {/* Envolva os botões em uma div com gap */}
-          <button onClick={() => navigate('/profile')} className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition-colors">
-            ⚙️ Perfil
-          </button>
-          <button onClick={handleLogout} className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-lg transition-colors">
-            Sair
-          </button>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">💰 Minhas Finanças</h1>
+
+          <div className="flex items-center gap-4">
+            <button onClick={() => navigate('/profile')} className="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition-colors">
+              ⚙️ Perfil
+            </button>
+            <button onClick={handleLogout} className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-lg transition-colors">
+              Sair
+            </button>
+          </div>
         </div>
 
         {/* É AQUI QUE AS MENSAGENS DEVEM FICAR! */}
