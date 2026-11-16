@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -204,6 +205,49 @@ export default function Dashboard() {
               </tbody>
             </table>
           </div>
+        </div>
+
+                {/* Gráfico de Gastos por Categoria */}
+        <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 mt-8">
+          <h2 className="text-xl font-bold mb-4">Gastos por Categoria</h2>
+          
+          {transacoes.filter(t => t.amount < 0).length === 0 ? (
+            <p className="text-slate-400 text-center py-4">Nenhuma despesa registrada para gerar o gráfico.</p>
+          ) : (
+            <div className="h-80 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={transacoes
+                      .filter(t => t.amount < 0)
+                      .reduce((acc, t) => {
+                        const existing = acc.find(item => item.name === t.category);
+                        if (existing) {
+                          existing.value += Math.abs(t.amount);
+                        } else {
+                          acc.push({ name: t.category, value: Math.abs(t.amount) });
+                        }
+                        return acc;
+                      }, [])}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {/* Cores das fatias */}
+                    {transacoes.filter(t => t.amount < 0).map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={['#f87171', '#fb923c', '#facc15', '#4ade80', '#2dd4bf', '#60a5fa', '#a78bfa'][index % 7]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          )}
         </div>
 
       </div>
