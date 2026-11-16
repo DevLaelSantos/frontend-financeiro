@@ -14,6 +14,7 @@ function App() {
           path="/dashboard" 
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} 
         />
+        <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" />} /> {/* <-- Nova rota */}
       </Routes>
     </BrowserRouter>
   );
