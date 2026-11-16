@@ -19,9 +19,15 @@ export default function Dashboard() {
       const response = await api.get('/transactions/');
       setTransacoes(response.data);
     } catch (error) {
-      console.error("Erro ao buscar transações:", error);
+      // console.error("Erro ao buscar transações:", error);
+      // if (error.response?.status === 401) {
+      //   navigate('/'); // Se o token expirou, volta pro login
+      // }
+
       if (error.response?.status === 401) {
-        navigate('/'); // Se o token expirou, volta pro login
+        // Salva uma mensagem para aparecer na tela de login
+        localStorage.setItem('mensagem_login', 'Sua sessão expirou. Faça login novamente.');
+        navigate('/');
       }
     }
   };
