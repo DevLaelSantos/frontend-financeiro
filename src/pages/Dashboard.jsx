@@ -236,7 +236,7 @@ export default function Dashboard() {
                     // todo label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} removida!
                     fill="#8884d8"
                     dataKey="value"
-                    label={false}
+                    label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                   >
                     {/* Cores das fatias */}
                     {transacoes.filter(t => t.amount < 0).map((entry, index) => (
