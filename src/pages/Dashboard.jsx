@@ -9,7 +9,15 @@ export default function Dashboard() {
   const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
   const [categoria, setCategoria] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
+  
+  // todo const [isAdmin, setIsAdmin] = useState(false);  LINHA REMOVIDA
+  
+  // * LINHA ADICIONADA!
+  const [isAdmin, setIsAdmin] = useState(() => {
+    // Tenta pegar do localStorage logo de cara
+    const storedAdmin = localStorage.getItem('is_admin');
+    return storedAdmin === 'true';
+  });
 
   // * MENSAGENS FLASH DASHBOARD
   const [notificacao, setNotificacao] = useState({ tipo: '', mensagem: '' });
@@ -47,18 +55,36 @@ export default function Dashboard() {
     }
   }, []);
 
+  // TODO CODIGO ANTIGO DE useEfect do ADMIN
   // Verifica se o usuário é administrador
-  useEffect(() => {
+  // useEffect(() => {
+  //   const checkAdmin = async () => {
+  //     try {
+  //       const response = await api.get('/auth/me');
+  //       setIsAdmin(response.data.is_admin);
+  //     } catch (error) {
+  //       console.error("Erro ao verificar admin:", error);
+  //     }
+  //   };
+  //   checkAdmin();
+  // }, []);
+
+  // * UPGRADE useEfect do ADMIN
+ useEffect(() => {
     const checkAdmin = async () => {
+      // Se já sabemos que é admin (pelo localStorage), não precisa chamar a API
+      // if (isAdmin) return; * LINHA COMENTADA PARA VERIFICAR BUGS 
+
       try {
         const response = await api.get('/auth/me');
         setIsAdmin(response.data.is_admin);
+        localStorage.setItem('is_admin', response.data.is_admin); // Salva para a próxima vez
       } catch (error) {
         console.error("Erro ao verificar admin:", error);
       }
     };
     checkAdmin();
-  }, []);
+  }, [isAdmin]);
 
 
   // Função para criar uma nova transação
@@ -109,6 +135,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('is_admin');
     navigate('/');
   };
 
