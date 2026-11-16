@@ -9,6 +9,7 @@ export default function Dashboard() {
   const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
   const [categoria, setCategoria] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // * MENSAGENS FLASH DASHBOARD
   const [notificacao, setNotificacao] = useState({ tipo: '', mensagem: '' });
@@ -44,6 +45,19 @@ export default function Dashboard() {
       setNotificacao({ tipo: 'sucesso', mensagem: `Bem-vindo(a), ${email}!` });
       setTimeout(() => setNotificacao({ tipo: '', mensagem: '' }), 4000);
     }
+  }, []);
+
+  // Verifica se o usuário é administrador
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const response = await api.get('/auth/me');
+        setIsAdmin(response.data.is_admin);
+      } catch (error) {
+        console.error("Erro ao verificar admin:", error);
+      }
+    };
+    checkAdmin();
   }, []);
 
 
