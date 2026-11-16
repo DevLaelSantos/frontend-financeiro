@@ -163,7 +163,7 @@ export default function Dashboard() {
         <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
           <h2 className="text-xl font-bold p-6 border-b border-slate-700">Minhas Transações</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left min-w-[600px]">
               <thead className="bg-slate-900/50 text-slate-400 text-sm">
                 <tr>
                   <th className="p-4">Descrição</th>
