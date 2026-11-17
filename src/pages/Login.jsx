@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'; // <-- Deixe apenas esta
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 
-const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
-
 export default function Login() {
+  // Todos os estados devem ficar aqui dentro do componente
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
+  const [sucesso, setSucesso] = useState(''); // <-- Posicionado corretamente aqui dentro
   const navigate = useNavigate(); // Hook para navegar entre telas
 
-  // 3. O useEffect fica AQUI (logo após os estados)
+  // O useEffect fica aqui, logo após os estados
   useEffect(() => {
     const msg = localStorage.getItem('mensagem_sucesso');
     if (msg) {
@@ -19,12 +19,8 @@ export default function Login() {
     }
   }, []);
 
-
-
   const handleLogin = async (e) => {
     e.preventDefault();
-
-
 
     setErro('');
     setSucesso(''); // Limpa a mensagem de sucesso ao tentar logar
@@ -39,11 +35,8 @@ export default function Login() {
       });
 
       localStorage.setItem('user_email', email);
-
       localStorage.setItem('token', response.data.access_token);
       navigate('/dashboard'); // Redireciona para o Dashboard
-
-
 
     } catch (error) {
       console.error(error);
