@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { Link } from 'react-router-dom'; // <-- Importe no topo
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ export default function Login() {
 
       localStorage.setItem('token', response.data.access_token);
       navigate('/dashboard'); // Redireciona para o Dashboard
-      
+
     } catch (error) {
       console.error(error);
       setErro("E-mail ou senha incorretos. Tente novamente.");
@@ -43,7 +44,7 @@ export default function Login() {
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-slate-300 text-sm font-medium mb-2">E-mail</label>
-            <input 
+            <input
               type="email" value={email} onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
               placeholder="seu@email.com" required
@@ -51,7 +52,7 @@ export default function Login() {
           </div>
           <div>
             <label className="block text-slate-300 text-sm font-medium mb-2">Senha</label>
-            <input 
+            <input
               type="password" value={senha} onChange={(e) => setSenha(e.target.value)}
               className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
               placeholder="••••••••" required
@@ -72,9 +73,9 @@ export default function Login() {
         <div className="mt-6 text-center">
           <p className="text-slate-400 text-sm">
             Não tem uma conta?{' '}
-            <a href="#" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
+            <Link to="/register" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
               Cadastre-se
-            </a>
+            </Link>
           </p>
         </div>
       </div>

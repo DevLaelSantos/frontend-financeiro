@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile'; // <-- Tem que ter essa linha
 import Admin from './pages/Admin'; // <-- Importe
+import Register from './pages/Register'; // <-- Importe
 
 function App() {
   // Verifica se o usuário está logado
@@ -18,6 +19,7 @@ function App() {
         />
         <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" />} /> {/* <-- Nova rota */}
         <Route path="/admin" element={isAuthenticated ? <Admin /> : <Navigate to="/" />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
