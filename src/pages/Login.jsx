@@ -11,9 +11,9 @@ export default function Login() {
   const navigate = useNavigate(); // Hook para navegar entre telas
 
   // 3. O useEffect fica AQUI (logo após os estados)
+  const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
   useEffect(() => {
     const msg = localStorage.getItem('mensagem_sucesso');
-    const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
     if (msg) {
       setSucesso(msg);
       localStorage.removeItem('mensagem_sucesso'); // Limpa para não aparecer de novo
