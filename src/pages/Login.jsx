@@ -36,6 +36,8 @@ export default function Login() {
       localStorage.setItem('token', response.data.access_token);
       navigate('/dashboard'); // Redireciona para o Dashboard
 
+      const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
     } catch (error) {
       console.error(error);
       setErro("E-mail ou senha incorretos. Tente novamente.");
