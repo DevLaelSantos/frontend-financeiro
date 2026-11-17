@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'; // <-- Deixe apenas esta
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
-const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,6 +13,7 @@ export default function Login() {
   // 3. O useEffect fica AQUI (logo após os estados)
   useEffect(() => {
     const msg = localStorage.getItem('mensagem_sucesso');
+    const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
     if (msg) {
       setSucesso(msg);
       localStorage.removeItem('mensagem_sucesso'); // Limpa para não aparecer de novo
