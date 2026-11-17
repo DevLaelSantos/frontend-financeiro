@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // <-- Deixe apenas esta
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { Link } from 'react-router-dom'; // <-- Importe no topo
-import { useState, useEffect } from 'react'; // <-- Importe o useEffect
+import { Link } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
