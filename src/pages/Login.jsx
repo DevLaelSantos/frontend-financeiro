@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'; // <-- Deixe apenas esta
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
+const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -22,7 +24,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
 
     setErro('');
     setSucesso(''); // Limpa a mensagem de sucesso ao tentar logar
