@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Link } from 'react-router-dom'; // <-- Importe no topo
+import { useState, useEffect } from 'react'; // <-- Importe o useEffect
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -9,9 +10,19 @@ export default function Login() {
   const [erro, setErro] = useState('');
   const navigate = useNavigate(); // Hook para navegar entre telas
 
+  // 3. O useEffect fica AQUI (logo após os estados)
+  useEffect(() => {
+    const msg = localStorage.getItem('mensagem_sucesso');
+    if (msg) {
+      setSucesso(msg);
+      localStorage.removeItem('mensagem_sucesso'); // Limpa para não aparecer de novo
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setErro('');
+    setSucesso(''); // Limpa a mensagem de sucesso ao tentar logar
 
     try {
       const params = new URLSearchParams();
@@ -58,6 +69,12 @@ export default function Login() {
               placeholder="••••••••" required
             />
           </div>
+
+          {sucesso && (
+            <div className="bg-emerald-500/10 border border-emerald-500/50 text-emerald-400 text-sm text-center p-3 rounded-lg mb-4">
+              {sucesso}
+            </div>
+          )}
 
           {erro && (
             <div className="bg-red-500/10 border border-red-500/50 text-red-400 text-sm text-center p-3 rounded-lg">

@@ -35,12 +35,19 @@ export default function Register() {
         password: password
       });
 
-      setSucesso("Conta criada com sucesso! Redirecionando para o login...");
+    //   todo Esse bloco esta com o setSucesso antigo!
+    //   setSucesso("Conta criada com sucesso! Redirecionando para o login...");
       
-      // Redireciona para o login após 2 segundos
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+    //   // Redireciona para o login após 2 segundos
+    //   setTimeout(() => {
+    //     navigate('/');
+    //   }, 2000);
+
+    // Salva a mensagem para aparecer no Login
+      localStorage.setItem('mensagem_sucesso', 'Conta criada com sucesso! Faça login.');
+      
+      // Redireciona imediatamente
+      navigate('/');
 
     } catch (error) {
       console.error(error);
