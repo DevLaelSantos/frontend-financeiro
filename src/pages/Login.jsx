@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'; // <-- Deixe apenas esta
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
+const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -16,6 +18,8 @@ export default function Login() {
       localStorage.removeItem('mensagem_sucesso'); // Limpa para não aparecer de novo
     }
   }, []);
+
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -36,7 +40,7 @@ export default function Login() {
       localStorage.setItem('token', response.data.access_token);
       navigate('/dashboard'); // Redireciona para o Dashboard
 
-      const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
 
     } catch (error) {
       console.error(error);
