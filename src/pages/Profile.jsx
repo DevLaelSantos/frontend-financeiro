@@ -8,6 +8,7 @@ export default function Profile() {
     const [password, setPassword] = useState('');
     const [notificacao, setNotificacao] = useState({ tipo: '', mensagem: '' });
     const [loading, setLoading] = useState(true);
+    const [plan, setPlan] = useState('');
 
     // Busca os dados do usuário ao carregar a página
     useEffect(() => {
@@ -15,6 +16,7 @@ export default function Profile() {
             try {
                 const response = await api.get('/auth/me');
                 setEmail(response.data.email);
+                setPlan(response.data.plan);
             } catch (error) {
                 console.error(error);
                 if (error.response?.status === 401) {
@@ -108,6 +110,10 @@ export default function Profile() {
                                 className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                 required
                             />
+                        </div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 mb-4">
+                            <p className="text-slate-400 text-sm mb-1">Plano Atual</p>
+                            <p className="text-xl font-bold text-emerald-400 uppercase">{plan}</p>
                         </div>
                         <div>
                             <label className="block text-slate-400 text-sm mb-1">Nova Senha (deixe em branco para não alterar)</label>

@@ -29,6 +29,26 @@ export default function Admin() {
     fetchUsers();
   }, [navigate]);
 
+
+  // Função para atualizar o plano
+   const handleUpdatePlan = async (id) => {
+    const newPlan = prompt("Digite o novo plano (free, pro, premium):");
+    if (!newPlan) return; // Se o admin cancelar, não faz nada
+
+    try {
+      await api.put(`/admin/users/${id}/plan`, { plan: newPlan });
+      
+      // Atualiza a lista visualmente sem recarregar a página
+      setUsers(users.map(u => u.id === id ? { ...u, plan: newPlan } : u));
+      
+      setNotificacao({ tipo: 'sucesso', mensagem: 'Plano atualizado com sucesso!' });
+      setTimeout(() => setNotificacao({ tipo: '', mensagem: '' }), 3000);
+    } catch (error) {
+      console.error(error);
+      setNotificacao({ tipo: 'erro', mensagem: 'Erro ao atualizar plano.' });
+    }
+  };
+
   // Exclui um usuário
   const handleDeleteUser = async (id) => {
     if (!window.confirm("ATENÇÃO: Isso apagará o usuário e todas as transações dele. Continuar?")) return;
@@ -54,7 +74,7 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-slate-900 text-white p-8">
       <div className="max-w-6xl mx-auto">
-        
+
         {/* Cabeçalho */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-emerald-400">👑 Painel de Administração</h1>
@@ -65,9 +85,8 @@ export default function Admin() {
 
         {/* Notificação */}
         {notificacao.mensagem && (
-          <div className={`p-3 rounded-lg mb-6 text-center border ${
-            notificacao.tipo === 'sucesso' ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400' : 'bg-red-500/10 border-red-500/50 text-red-400'
-          }`}>
+          <div className={`p-3 rounded-lg mb-6 text-center border ${notificacao.tipo === 'sucesso' ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400' : 'bg-red-500/10 border-red-500/50 text-red-400'
+            }`}>
             {notificacao.mensagem}
           </div>
         )}
@@ -84,6 +103,7 @@ export default function Admin() {
                   <th className="p-4">Status</th>
                   <th className="p-4">Tipo</th>
                   <th className="p-4 text-center">Ações</th>
+                  <th className="p-4">Plano</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
@@ -91,11 +111,15 @@ export default function Admin() {
                   <tr key={u.id} className="hover:bg-slate-700/30 transition-colors">
                     <td className="p-4 text-slate-400">#{u.id}</td>
                     <td className="p-4 font-medium">{u.email}</td>
+
+                    {/* Coluna Status */}
                     <td className="p-4">
                       <span className={`px-2 py-1 rounded text-xs font-semibold ${u.is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
                         {u.is_active ? 'Ativo' : 'Inativo'}
                       </span>
                     </td>
+
+                    {/* Coluna Tipo */}
                     <td className="p-4">
                       {u.is_admin ? (
                         <span className="text-yellow-400 font-bold">👑 Admin</span>
@@ -103,10 +127,24 @@ export default function Admin() {
                         <span className="text-slate-400">Usuário</span>
                       )}
                     </td>
+
+                    {/* NOVA COLUNA: Plano */}
+                    <td className="p-4">
+                      <span className="uppercase font-bold text-blue-400">{u.plan || 'free'}</span>
+                    </td>
+
+                    {/* Coluna Ações */}
                     <td className="p-4 text-center">
-                      <button 
+                      <button
+                        onClick={() => handleUpdatePlan(u.id)}
+                        className="text-blue-400 hover:text-blue-300 mr-3 transition-colors"
+                        title="Mudar Plano"
+                      >
+                        💳
+                      </button>
+                      <button
                         onClick={() => handleDeleteUser(u.id)}
-                        className="text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+                        className="text-red-400 hover:text-red-300 transition-colors"
                         title="Excluir Usuário"
                       >
                         🗑️
