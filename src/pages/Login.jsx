@@ -8,9 +8,6 @@ export default function Login() {
   const [erro, setErro] = useState('');
   const navigate = useNavigate(); // Hook para navegar entre telas
 
-  const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
-
-
   // 3. O useEffect fica AQUI (logo após os estados)
   useEffect(() => {
     const msg = localStorage.getItem('mensagem_sucesso');
@@ -24,6 +21,9 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
     setErro('');
     setSucesso(''); // Limpa a mensagem de sucesso ao tentar logar
 
