@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react'; // <-- Deixe apenas esta
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
-
-
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
   const navigate = useNavigate(); // Hook para navegar entre telas
 
-  // 3. O useEffect fica AQUI (logo após os estados)
   const [sucesso, setSucesso] = useState(''); // <-- ADICIONE ESTA LINHA
+
+
+  // 3. O useEffect fica AQUI (logo após os estados)
   useEffect(() => {
     const msg = localStorage.getItem('mensagem_sucesso');
     if (msg) {
