@@ -31,16 +31,16 @@ export default function Admin() {
 
 
   // Função para atualizar o plano
-   const handleUpdatePlan = async (id) => {
+  const handleUpdatePlan = async (id) => {
     const newPlan = prompt("Digite o novo plano (free, pro, premium):");
     if (!newPlan) return; // Se o admin cancelar, não faz nada
 
     try {
       await api.put(`/admin/users/${id}/plan`, { plan: newPlan });
-      
+
       // Atualiza a lista visualmente sem recarregar a página
       setUsers(users.map(u => u.id === id ? { ...u, plan: newPlan } : u));
-      
+
       setNotificacao({ tipo: 'sucesso', mensagem: 'Plano atualizado com sucesso!' });
       setTimeout(() => setNotificacao({ tipo: '', mensagem: '' }), 3000);
     } catch (error) {
@@ -48,6 +48,13 @@ export default function Admin() {
       setNotificacao({ tipo: 'erro', mensagem: 'Erro ao atualizar plano.' });
     }
   };
+
+  const formatarData = (dataString) => {
+    if (!dataString) return '-';
+    const data = new Date(dataString);
+    return data.toLocaleDateString('pt-BR'); // Retorna DD/MM/AAAA
+  };
+
 
   // Exclui um usuário
   const handleDeleteUser = async (id) => {
@@ -102,6 +109,7 @@ export default function Admin() {
                   <th className="p-4">E-mail</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Tipo</th>
+                  <th className="p-4">Cadastro</th>
                   <th className="p-4 text-left">Plano</th>
                   <th className="p-4 text-center">Ações</th>
                 </tr>
@@ -118,6 +126,9 @@ export default function Admin() {
                     </td>
                     <td className="p-4">
                       {u.is_admin ? <span className="text-yellow-400 font-bold">👑 Admin</span> : <span className="text-slate-400">Usuário</span>}
+                    </td>
+                    <td className="p-4 text-slate-400">
+                      {formatarData(u.created_at)}
                     </td>
                     <td className="p-4">
                       <span className="uppercase font-bold text-blue-400">{u.plan || 'free'}</span>
