@@ -102,8 +102,8 @@ export default function Admin() {
                   <th className="p-4">E-mail</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Tipo</th>
-                  <th className="p-4 text-center">Ações</th>
                   <th className="p-4">Plano</th>
+                  <th className="p-4 text-center">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
@@ -111,48 +111,25 @@ export default function Admin() {
                   <tr key={u.id} className="hover:bg-slate-700/30 transition-colors">
                     <td className="p-4 text-slate-400">#{u.id}</td>
                     <td className="p-4 font-medium">{u.email}</td>
-
-                    {/* Coluna Status */}
                     <td className="p-4">
                       <span className={`px-2 py-1 rounded text-xs font-semibold ${u.is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
                         {u.is_active ? 'Ativo' : 'Inativo'}
                       </span>
                     </td>
-
-                    {/* Coluna Tipo */}
                     <td className="p-4">
-                      {u.is_admin ? (
-                        <span className="text-yellow-400 font-bold">👑 Admin</span>
-                      ) : (
-                        <span className="text-slate-400">Usuário</span>
-                      )}
+                      {u.is_admin ? <span className="text-yellow-400 font-bold">👑 Admin</span> : <span className="text-slate-400">Usuário</span>}
                     </td>
-
-                    {/* NOVA COLUNA: Plano */}
                     <td className="p-4">
                       <span className="uppercase font-bold text-blue-400">{u.plan || 'free'}</span>
                     </td>
-
-                    {/* Coluna Ações */}
                     <td className="p-4 text-center">
-                      <button
-                        onClick={() => handleUpdatePlan(u.id)}
-                        className="text-blue-400 hover:text-blue-300 mr-3 transition-colors"
-                        title="Mudar Plano"
-                      >
-                        💳
-                      </button>
-                      <button
-                        onClick={() => handleDeleteUser(u.id)}
-                        className="text-red-400 hover:text-red-300 transition-colors"
-                        title="Excluir Usuário"
-                      >
-                        🗑️
-                      </button>
+                      <button onClick={() => handleUpdatePlan(u.id)} className="text-blue-400 hover:text-blue-300 mr-3 transition-colors" title="Mudar Plano">💳</button>
+                      <button onClick={() => handleDeleteUser(u.id)} className="text-red-400 hover:text-red-300 transition-colors" title="Excluir Usuário">🗑️</button>
                     </td>
                   </tr>
                 ))}
               </tbody>
+
             </table>
           </div>
         </div>
