@@ -102,7 +102,7 @@ export default function Admin() {
                   <th className="p-4">E-mail</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Tipo</th>
-                  <th className="p-4">Plano</th>
+                  <th className="p-4 text-left">Plano</th>
                   <th className="p-4 text-center">Ações</th>
                 </tr>
               </thead>
