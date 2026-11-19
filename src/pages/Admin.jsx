@@ -147,8 +147,6 @@ export default function Admin() {
                       <span className="uppercase font-bold text-blue-400">{u.plan || 'free'}</span>
                     </td>
                     <td className="p-4 text-center">
-                      <button onClick={() => handleUpdatePlan(u.id)} className="text-blue-400 hover:text-blue-300 mr-3 transition-colors" title="Mudar Plano">💳</button>
-                      <button onClick={() => handleDeleteUser(u.id)} className="text-red-400 hover:text-red-300 transition-colors" title="Excluir Usuário">🗑️</button>
                       <button
                         onClick={() => handleToggleActive(u.id)}
                         className={`mr-3 transition-colors ${u.is_active ? 'text-yellow-400 hover:text-yellow-300' : 'text-emerald-400 hover:text-emerald-300'}`}
@@ -156,6 +154,8 @@ export default function Admin() {
                       >
                         {u.is_active ? '🚫' : '✅'}
                       </button>
+                      <button onClick={() => handleUpdatePlan(u.id)} className="text-blue-400 hover:text-blue-300 mr-3 transition-colors" title="Mudar Plano">💳</button>
+                      <button onClick={() => handleDeleteUser(u.id)} className="text-red-400 hover:text-red-300 transition-colors" title="Excluir Usuário">🗑️</button>
                     </td>
                   </tr>
                 ))}
