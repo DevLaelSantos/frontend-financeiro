@@ -9,7 +9,7 @@ export default function Login() {
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState(''); // <-- Posicionado corretamente aqui dentro
   const navigate = useNavigate(); // Hook para navegar entre telas
-  const [mostrarSenha, setMostrarSenha] = useState(false);
+  // const [mostrarSenha, setMostrarSenha] = useState(false);
 
   // O useEffect fica aqui, logo após os estados
   useEffect(() => {
