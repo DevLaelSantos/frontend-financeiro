@@ -66,16 +66,16 @@ export default function Login() {
               placeholder="seu@email.com" required
             />
           </div>
-          {/* <div>
+          <div className="relative">
             <label className="block text-slate-300 text-sm font-medium mb-2">Senha</label>
             <input
               type="password" value={senha} onChange={(e) => setSenha(e.target.value)}
               className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
               placeholder="••••••••" required
             />
-          </div> */}
+          </div>
 
-          <div className="relative">
+          {/* <div className="relative">
              <label className="block text-slate-300 text-sm font-medium mb-2">Senha</label>
             <input
               type={mostrarSenha ? "text" : "password"} // <-- Muda o tipo
@@ -90,7 +90,7 @@ export default function Login() {
             >
               {mostrarSenha ? '🙈' : '👁️'}
             </button>
-          </div>
+          </div> */}
 
           {sucesso && (
             <div className="bg-emerald-500/10 border border-emerald-500/50 text-emerald-400 text-sm text-center p-3 rounded-lg mb-4">
