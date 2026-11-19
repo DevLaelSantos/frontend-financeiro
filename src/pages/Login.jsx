@@ -1,7 +1,3 @@
-// import { useState, useEffect } from 'react';
-// import { useNavigate, Link } from 'react-router-dom';
-// import api from '../services/api';
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
@@ -13,6 +9,7 @@ export default function Login() {
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState(''); // <-- Posicionado corretamente aqui dentro
   const navigate = useNavigate(); // Hook para navegar entre telas
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   // O useEffect fica aqui, logo após os estados
   useEffect(() => {
@@ -43,8 +40,12 @@ export default function Login() {
       navigate('/dashboard'); // Redireciona para o Dashboard
 
     } catch (error) {
-      console.error(error);
-      setErro("E-mail ou senha incorretos. Tente novamente.");
+      // Se for 403 (conta inativa), mostra a mensagem da API
+      if (error.response?.status === 403) {
+        setErro(error.response.data.detail);
+      } else {
+        setErro("E-mail ou senha incorretos. Tente novamente.");
+      }
     }
   };
 
@@ -65,13 +66,30 @@ export default function Login() {
               placeholder="seu@email.com" required
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block text-slate-300 text-sm font-medium mb-2">Senha</label>
             <input
               type="password" value={senha} onChange={(e) => setSenha(e.target.value)}
               className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
               placeholder="••••••••" required
             />
+          </div> */}
+
+          <div className="relative">
+             <label className="block text-slate-300 text-sm font-medium mb-2">Senha</label>
+            <input
+              type={mostrarSenha ? "text" : "password"} // <-- Muda o tipo
+              value={senha} onChange={(e) => setSenha(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+              placeholder="••••••••" required
+            />
+            <button
+              type="button"
+              onClick={() => setMostrarSenha(!mostrarSenha)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+            >
+              {mostrarSenha ? '🙈' : '👁️'}
+            </button>
           </div>
 
           {sucesso && (
