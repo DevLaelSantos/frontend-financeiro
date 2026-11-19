@@ -55,6 +55,19 @@ export default function Admin() {
     return data.toLocaleDateString('pt-BR'); // Retorna DD/MM/AAAA
   };
 
+  // * admin ativar/desativar o usuário
+  const handleToggleActive = async (id) => {
+    try {
+      await api.patch(`/admin/users/${id}/toggle-active`);
+      // Atualiza a lista visualmente
+      setUsers(users.map(u => u.id === id ? { ...u, is_active: !u.is_active } : u));
+      setNotificacao({ tipo: 'sucesso', mensagem: 'Status do usuário alterado!' });
+      setTimeout(() => setNotificacao({ tipo: '', mensagem: '' }), 3000);
+    } catch (error) {
+      setNotificacao({ tipo: 'erro', mensagem: 'Erro ao alterar status.' });
+    }
+  };
+
 
   // Exclui um usuário
   const handleDeleteUser = async (id) => {
@@ -136,6 +149,13 @@ export default function Admin() {
                     <td className="p-4 text-center">
                       <button onClick={() => handleUpdatePlan(u.id)} className="text-blue-400 hover:text-blue-300 mr-3 transition-colors" title="Mudar Plano">💳</button>
                       <button onClick={() => handleDeleteUser(u.id)} className="text-red-400 hover:text-red-300 transition-colors" title="Excluir Usuário">🗑️</button>
+                      <button
+                        onClick={() => handleToggleActive(u.id)}
+                        className={`mr-3 transition-colors ${u.is_active ? 'text-yellow-400 hover:text-yellow-300' : 'text-emerald-400 hover:text-emerald-300'}`}
+                        title={u.is_active ? "Desativar Usuário" : "Ativar Usuário"}
+                      >
+                        {u.is_active ? '🚫' : '✅'}
+                      </button>
                     </td>
                   </tr>
                 ))}
